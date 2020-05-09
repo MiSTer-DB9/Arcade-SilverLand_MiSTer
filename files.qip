@@ -13,3 +13,5 @@ set_global_assignment -name VHDL_FILE rtl/ym_2149_linmix.vhd
 set_global_assignment -name VHDL_FILE rtl/video_gen.vhd
 set_global_assignment -name VHDL_FILE rtl/crazy_climber_sound.vhd
 set_global_assignment -name VHDL_FILE rtl/crazy_climber.vhd
+set_global_assignment -name VERILOG_FILE rtl/joydb9md.v
+set_global_assignment -name VERILOG_FILE rtl/joydb15.v
