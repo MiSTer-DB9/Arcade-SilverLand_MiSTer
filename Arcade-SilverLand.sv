@@ -53,13 +53,14 @@ module emu
 	output        VGA_F1,
 	output [1:0]  VGA_SL,
 	output        VGA_SCALER, // Force VGA scaler
+	output        VGA_DISABLE, // analog out is off
 
 	input  [11:0] HDMI_WIDTH,
 	input  [11:0] HDMI_HEIGHT,
 	output        HDMI_FREEZE,
 
 `ifdef MISTER_FB
-	// Use framebuffer in DDRAM (USE_FB=1 in qsf)
+	// Use framebuffer in DDRAM
 	// FB_FORMAT:
 	//    [2:0] : 011=8bpp(palette) 100=16bpp 101=24bpp 110=32bpp
 	//    [3]   : 0=16bits 565 1=16bits 1555
@@ -184,8 +185,10 @@ assign {DDRAM_CLK, DDRAM_BURSTCNT, DDRAM_ADDR, DDRAM_DIN, DDRAM_BE, DDRAM_RD, DD
 
 assign VGA_F1    = 0;
 assign VGA_SCALER= 0;
+assign VGA_DISABLE=0;
 assign HDMI_FREEZE = 0;
 
+assign AUDIO_MIX = 0;
 wire         CLK_JOY = CLK_50M;         //Assign clock between 40-50Mhz
 wire   [2:0] JOY_FLAG  = {status[30],status[31],status[29]}; //Assign 3 bits of status (31:29) o (63:61)
 wire         JOY_CLK, JOY_LOAD, JOY_SPLIT, JOY_MDSEL;
@@ -248,6 +251,7 @@ wire [127:0] status;
 wire  [1:0] buttons;
 wire        forced_scandoubler;
 wire        direct_video;
+wire        video_rotated;
 
 wire        ioctl_download;
 wire        ioctl_wr;
@@ -307,6 +311,7 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 	.forced_scandoubler(forced_scandoubler),
 	.gamma_bus(gamma_bus),
 	.direct_video(direct_video),
+   .video_rotated(video_rotated),
 
 	.ioctl_download(ioctl_download),
 	.ioctl_wr(ioctl_wr),
